@@ -2,10 +2,12 @@ import React from 'react';
 import TickerCard from './TickerCard';
 
 const stocks = [
-  { ticker: 'NVDA', name: '엔비디아', currentPrice: 178.43, previousClose: 181.40 },
-  { ticker: 'TSLA', name: '테슬라', currentPrice: 425.85, previousClose: 439.95 },
-  { ticker: 'GOOGL', name: '알파벳', currentPrice: 251.66, previousClose: 253.22 },
-];
+  { ticker: 'NVDA'},
+  { ticker: 'TSLA' },
+  { ticker: 'GOOGL'},
+  { ticker: 'QQQM'},
+  { ticker: 'SPLG'},
+]
 
 function App() {
   return (
