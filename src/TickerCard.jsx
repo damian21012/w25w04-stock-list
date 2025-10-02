@@ -80,15 +80,15 @@ const TickerCard = ({ ticker }) => {
             <div className="border-b border-gray-200 mb-4"></div>
 
             <div className={`text-4xl font-extrabold mb-2 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                {currencyMarker}{currentPrice.toFixed(2)}
+                {currencyMarker}{isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
             </div>
 
             <div className={`text-base font-semibold ${isPositive ? 'text-green-700' : 'text-red-700'}`}>
-                {isPositive ? '▲' : '▼'} {priceChange.toFixed(2)}
+                {isPositive ? '▲' : '▼'} {isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
             </div>
 
             <div className="mt-4 text-sm text-gray-500">
-                전일 종가: {currencyMarker}{previousClose.toFixed(2)}
+                전일 종가: {currencyMarker}{isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
             </div>
         </div>
     )
