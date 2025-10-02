@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 
-
 const TickerCard = ({ ticker }) => {
     const [stockData, setStockData] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
-
 
     useEffect(() => {
         const fetchStockData = async () => {
@@ -26,7 +24,7 @@ const TickerCard = ({ ticker }) => {
                 setError(`${ticker} 데이터를 가져오는 데 실패했습니다.`)
             } finally {
                 setLoading(false);
-            }           
+            }
         }
 
         fetchStockData()
@@ -51,7 +49,6 @@ const TickerCard = ({ ticker }) => {
         )
     }
 
-
     if (!stockData || !stockData.meta) {
         return (
             <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative w-80 mx-auto">
@@ -71,26 +68,32 @@ const TickerCard = ({ ticker }) => {
     const isKoreanStock = ticker.endsWith('.KS') || ticker.endsWith('.KQ')
     const currencyMarker = isKoreanStock ? '₩' : '$'
 
+    const stockUrl = isKoreanStock
+        ? `https://finance.naver.com/item/main.naver?code=${meta.symbol.replace('.KS', '').replace('.KQ', '')}`
+        : `https://www.google.com/finance/quote/${ticker}:${meta.exchangeName == 'NMS' ? "NASDAQ" : "NYSE"}`;
+
     return (
-        <div className="bg-white rounded-lg shadow-xl p-6 w-80 transform transition duration-500 hover:scale-105">
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
-                <div className="text-sm font-semibold text-gray-500">{ticker}</div>
-            </div>
-            <div className="border-b border-gray-200 mb-4"></div>
+        <a href={stockUrl} target="_blank" rel="noopener noreferrer">
+            <div className="bg-white rounded-lg shadow-xl p-6 w-80 transform transition duration-500 hover:scale-105">
+                <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
+                    <div className="text-sm font-semibold text-gray-500">{ticker}</div>
+                </div>
+                <div className="border-b border-gray-200 mb-4"></div>
 
-            <div className={`text-4xl font-extrabold mb-2 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                {currencyMarker}{isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
-            </div>
+                <div className={`text-4xl font-extrabold mb-2 ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                    {currencyMarker}{isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
+                </div>
 
-            <div className={`text-base font-semibold ${isPositive ? 'text-green-700' : 'text-red-700'}`}>
-                {isPositive ? '▲' : '▼'} {isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
-            </div>
+                <div className={`text-base font-semibold ${isPositive ? 'text-green-700' : 'text-red-700'}`}>
+                    {isPositive ? '▲' : '▼'} {isKoreanStock ? priceChange.toLocaleString() : priceChange.toFixed(2)}
+                </div>
 
-            <div className="mt-4 text-sm text-gray-500">
-                전일 종가: {currencyMarker}{isKoreanStock ? currentPrice.toLocaleString() : currentPrice.toFixed(2)}
+                <div className="mt-4 text-sm text-gray-500">
+                    전일 종가: {currencyMarker}{isKoreanStock ? previousClose.toLocaleString() : previousClose.toFixed(2)}
+                </div>
             </div>
-        </div>
+        </a>
     )
 }
 
